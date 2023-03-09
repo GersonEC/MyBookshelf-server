@@ -12,10 +12,17 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+const client_1 = require("@prisma/client");
 const fastify_1 = __importDefault(require("fastify"));
 const server = (0, fastify_1.default)();
-server.get('/ping', (request, reply) => __awaiter(void 0, void 0, void 0, function* () {
-    return 'pong\n';
+const prisma = new client_1.PrismaClient();
+const getUsers = () => __awaiter(void 0, void 0, void 0, function* () {
+    const users = yield prisma.user.findMany();
+    return users;
+});
+server.get('/users', (request, reply) => __awaiter(void 0, void 0, void 0, function* () {
+    const users = yield getUsers();
+    return users;
 }));
 server.listen({ port: 8080 }, (err, address) => {
     if (err) {

@@ -1,9 +1,18 @@
+import { PrismaClient } from '@prisma/client';
 import fastify from 'fastify';
 
 const server = fastify();
 
-server.get('/ping', async (request, reply) => {
-  return 'pong\n';
+const prisma = new PrismaClient();
+
+const getUsers = async () => {
+  const users = await prisma.user.findMany();
+  return users;
+};
+
+server.get('/users', async (request, reply) => {
+  const users = await getUsers();
+  return users;
 });
 
 server.listen({ port: 8080 }, (err, address) => {
