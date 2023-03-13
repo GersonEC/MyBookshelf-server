@@ -1,7 +1,12 @@
+import fastifyCors from '@fastify/cors';
 import { PrismaClient } from '@prisma/client';
 import fastify from 'fastify';
 
 const server = fastify();
+
+server.register(fastifyCors, {
+  origin: 'http://localhost:3000',
+});
 
 const prisma = new PrismaClient();
 
@@ -12,6 +17,7 @@ const getUsers = async () => {
 
 server.get('/users', async (request, reply) => {
   const users = await getUsers();
+
   return users;
 });
 

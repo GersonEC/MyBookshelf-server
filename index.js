@@ -12,9 +12,13 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+const cors_1 = __importDefault(require("@fastify/cors"));
 const client_1 = require("@prisma/client");
 const fastify_1 = __importDefault(require("fastify"));
 const server = (0, fastify_1.default)();
+server.register(cors_1.default, {
+    origin: 'http://localhost:3000',
+});
 const prisma = new client_1.PrismaClient();
 const getUsers = () => __awaiter(void 0, void 0, void 0, function* () {
     const users = yield prisma.user.findMany();
