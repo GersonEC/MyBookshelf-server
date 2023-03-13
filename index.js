@@ -20,10 +20,30 @@ server.register(cors_1.default, {
     origin: 'http://localhost:3000',
 });
 const prisma = new client_1.PrismaClient();
+const register = (data) => __awaiter(void 0, void 0, void 0, function* () {
+    const { email } = data;
+    // data.password = bcrypt.hashSync(data.password, 8);
+    let user = prisma.user.create({
+        data,
+    });
+    // data.accessToken = await jwt.signAccessToken(user);
+    return data;
+});
 const getUsers = () => __awaiter(void 0, void 0, void 0, function* () {
     const users = yield prisma.user.findMany();
     return users;
 });
+server.post('/register', (request, reply) => __awaiter(void 0, void 0, void 0, function* () {
+    const { name, email, password } = JSON.parse(request.body);
+    const user = yield prisma.user.create({
+        data: {
+            name,
+            email,
+            password,
+        },
+    });
+    return user;
+}));
 server.get('/users', (request, reply) => __awaiter(void 0, void 0, void 0, function* () {
     const users = yield getUsers();
     return users;

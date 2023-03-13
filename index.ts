@@ -31,8 +31,10 @@ interface Register {
   password: string;
   email: string;
 }
-server.get('/register', async (request, reply) => {
-  const { name, email, password } = request.body as Register;
+server.post('/register', async (request, reply) => {
+  const { name, email, password } = JSON.parse(
+    request.body as string
+  ) as Register;
   const user = await prisma.user.create({
     data: {
       name,
