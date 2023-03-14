@@ -46,6 +46,20 @@ server.post('/register', async (request, reply) => {
   return user;
 });
 
+interface Signin {
+  email: string;
+  password: string;
+}
+server.post('/signin', async (request, reply) => {
+  const { email, password } = JSON.parse(request.body as string) as Signin;
+  const user = await prisma.user.findUnique({
+    where: {
+      email,
+    },
+  });
+  return user;
+});
+
 server.get('/users', async (request, reply) => {
   const users = await getUsers();
   return users;
