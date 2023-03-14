@@ -26,15 +26,15 @@ const getUsers = async () => {
   return users;
 };
 
-interface Register {
+interface Signup {
   name: string;
   password: string;
   email: string;
 }
-server.post('/register', async (request, reply) => {
+server.post('/signup', async (request, reply) => {
   const { name, email, password } = JSON.parse(
     request.body as string
-  ) as Register;
+  ) as Signup;
   const user = await prisma.user.create({
     data: {
       name,
